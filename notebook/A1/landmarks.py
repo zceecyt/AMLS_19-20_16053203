@@ -10,6 +10,7 @@ global basedir, image_paths, target_size
 basedir = '../../dataset/'
 # basedir = 'C:\Users\User\Desktop\4th_year_AMLS\zceecyt-AMLSassignment19_20-16053203\dataset'
 images_dir = os.path.join(basedir,'celeba/')
+# images_dir = os.path.join(basedir, 
 # currdir = os.path.join(basedir,'celeba')
 # images_dir = os.path.join(currdir,'img')
 labels_filename = 'labels.csv'
@@ -138,27 +139,8 @@ def extract_features_labels():
 #                 'gender': row[1],
 #                 'smiling': row[2][:-2]
 #             }, ignore_index=True)
-        
-#         for i in range(len(image_paths)):
-#             print(image_paths)
-#             img_path = image_paths[i]
-# #             print(img_path)
-#             #file_name= img_path.split('.')[1].split('/')[-1]
-# #             file_name= img_path.split('.')[2].split('\\')[-1]
-#             #file_name= img_path.replace('\\','').replace('t','').replace('.','')
 
-#             # load image
-#             img = image.img_to_array(
-#                 image.load_img(img_path,
-#                                target_size=target_size,
-#                                interpolation='bicubic'))
-#             features, _ = run_dlib_shape(img)
-#             if features is not None:
-#                 all_features.append(features)
-#                 print(df.loc[i,:].to_numpy())
-# #                 all_labels.append(df.loc[i, ''])
-# #                 all_labels.append(gender_labels[file_name])
-
+    
                         
                         
     landmark_features = np.array(all_features)
