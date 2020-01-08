@@ -132,7 +132,7 @@ def extract_features_labels():
             features, _ = run_dlib_shape(img)
             if features is not None:
                 all_features.append(features)
-                all_labels.append(int(row[1]))
+                all_labels.append(int(row[2]))
 
 #             df = df.append({
 #                 'img_name': row[0][:-4],
