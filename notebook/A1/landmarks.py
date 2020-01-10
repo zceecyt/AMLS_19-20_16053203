@@ -122,7 +122,7 @@ def extract_features_labels():
             if i == 0: continue
 
             row = lines[i].split('\t')[1:]
-            row[-1] = row[-1].replace('\n','')
+            row[-1] = row[-1].replace('\n','').replace('.','')
 
             # load image
             img = image.img_to_array(
