@@ -7,7 +7,7 @@ import pandas as pd
 
 # PATH TO ALL IMAGES
 global basedir, image_paths, target_size
-basedir = '../../Dataset_test_AMLS_19-20/'
+basedir = '../Dataset_test_AMLS_19-20/'
 # basedir = 'C:\Users\User\Desktop\4th_year_AMLS\zceecyt-AMLSassignment19_20-16053203\dataset'
 images_dir = os.path.join(basedir,'celeba_test/')
 # images_dir = os.path.join(basedir, 
