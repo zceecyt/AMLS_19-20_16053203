@@ -5,14 +5,10 @@ import cv2
 import dlib
 import pandas as pd
 
-# PATH TO ALL IMAGES
+# setting path to image folders
 global basedir, image_paths, target_size
 basedir = '../Dataset_original_AMLS_19-20/'
-# basedir = 'C:\Users\User\Desktop\4th_year_AMLS\zceecyt-AMLSassignment19_20-16053203\dataset'
 images_dir = os.path.join(basedir,'celeba/')
-# images_dir = os.path.join(basedir, 
-# currdir = os.path.join(basedir,'celeba')
-# images_dir = os.path.join(currdir,'img')
 labels_filename = 'labels.csv'
 
 detector = dlib.get_frontal_face_detector()
@@ -21,24 +17,15 @@ predictor = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')
 
 # how to find frontal human faces in an image using 68 landmarks.  These are points on the face such as the corners of the mouth, along the eyebrows, on the eyes, and so forth.
 
-# The face detector we use is made using the classic Histogram of Oriented
-# Gradients (HOG) feature combined with a linear classifier, an image pyramid,
-# and sliding window detection scheme.  The pose estimator was created by
-# using dlib's implementation of the paper:
-# One Millisecond Face Alignment with an Ensemble of Regression Trees by
-# Vahid Kazemi and Josephine Sullivan, CVPR 2014
-# and was trained on the iBUG 300-W face landmark dataset (see https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/):
-#     C. Sagonas, E. Antonakos, G, Tzimiropoulos, S. Zafeiriou, M. Pantic.
-#     300 faces In-the-wild challenge: Database and results.
-#     Image and Vision Computing (IMAVIS), Special Issue on Facial Landmark Localisation "In-The-Wild". 2016.
+# The face detector we use is made using the classic Histogram of Oriented Gradients (HOG) feature combined with a linear classifier, an image pyramid, and sliding window detection scheme.  The pose estimator was created by using dlib's implementation of the paper:
+# One Millisecond Face Alignment with an Ensemble of Regression Trees by Vahid Kazemi and Josephine Sullivan, CVPR 2014 and was trained on the iBUG 300-W face landmark dataset (see https://ibug.doc.ic.ac.uk/resources/facial-point-annotations/): C. Sagonas, E. Antonakos, G, Tzimiropoulos, S. Zafeiriou, M. Pantic. 300 faces In-the-wild challenge: Database and results. Image and Vision Computing (IMAVIS), Special Issue on Facial Landmark Localisation "In-The-Wild". 2016.
 
 
 def shape_to_np(shape, dtype="int"):
     # initialize the list of (x, y)-coordinates
     coords = np.zeros((shape.num_parts, 2), dtype=dtype)
 
-    # loop over all facial landmarks and convert them
-    # to a 2-tuple of (x, y)-coordinates
+    # loop through all facial landmarks and convert them to a 2-tuple of (x, y)-coordinates
     for i in range(0, shape.num_parts):
         coords[i] = (shape.part(i).x, shape.part(i).y)
 
@@ -46,9 +33,7 @@ def shape_to_np(shape, dtype="int"):
     return coords
 
 def rect_to_bb(rect):
-    # take a bounding predicted by dlib and convert it
-    # to the format (x, y, w, h) as we would normally do
-    # with OpenCV
+    # take a bounding predicted by dlib and convert it to the format (x, y, w, h) as we would normally do with OpenCV
     x = rect.left()
     y = rect.top()
     w = rect.right() - x
@@ -59,7 +44,7 @@ def rect_to_bb(rect):
 
 
 def run_dlib_shape(image):
-    # in this function we load the image, detect the landmarks of the face, and then return the image and the landmarks
+    # in this function, load the image, detect the landmarks of the face, and then return the image and the landmarks
     # load the input image, resize it, and convert it to grayscale
     resized_image = image.astype('uint8')
 
@@ -78,19 +63,15 @@ def run_dlib_shape(image):
 
     # loop over the face detections
     for (i, rect) in enumerate(rects):
-        # determine the facial landmarks for the face region, then
-        # convert the facial landmark (x, y)-coordinates to a NumPy
-        # array
+        # determine the facial landmarks for the face region, then convert the facial landmark (x, y)-coordinates to a NumPy array
         temp_shape = predictor(gray, rect)
         temp_shape = shape_to_np(temp_shape)
 
         # convert dlib's rectangle to a OpenCV-style bounding box
-        # [i.e., (x, y, w, h)],
-        #   (x, y, w, h) = face_utils.rect_to_bb(rect)
         (x, y, w, h) = rect_to_bb(rect)
         face_shapes[:, i] = np.reshape(temp_shape, [136])
         face_areas[0, i] = w * h
-    # find largest face and keep
+    # find largest face and keep it
     dlibout = np.reshape(np.transpose(face_shapes[:, np.argmax(face_areas)]), [68, 2])
 
     return dlibout, resized_image
@@ -108,11 +89,6 @@ def extract_features_labels():
     target_size = None
     labels_file = open(os.path.join(images_dir, labels_filename), 'r')
     lines = labels_file.readlines()
-#     try:
-#         lines = int(lines)
-#         lines = {line.replace('t',' ')
-#     except ValueError:
-#         continue
    
     if os.path.isdir(images_dir):
         all_features = []
@@ -134,17 +110,11 @@ def extract_features_labels():
                 all_features.append(features)
                 all_labels.append(int(row[1]))
 
-#             df = df.append({
-#                 'img_name': row[0][:-4],
-#                 'gender': row[1],
-#                 'smiling': row[2][:-2]
-#             }, ignore_index=True)
-
     
-                        
-                        
     landmark_features = np.array(all_features)
-    gender_labels = (np.array(all_labels) + 1)/2 # simply converts the -1 into 0, so female=0 and male=1
+    
+    # converts -1 values into 0, so female=0 and male=1
+    gender_labels = (np.array(all_labels) + 1)/2
     
     return landmark_features, gender_labels
 

@@ -1,4 +1,31 @@
-import ...
+from A1.gender import landmarks, landmarks_test
+from A2.gender import landmarks_v2, landmarks_v2_test
+import B1.gender
+import B2.gender
+import os
+import numpy as np
+from keras.preprocessing import image
+import cv2
+import dlib
+import pandas as pd
+import time
+start_time = time.time()
+import os
+import numpy as np
+from keras.preprocessing import image
+import cv2
+import dlib
+import pandas as pd
+import matplotlib.pyplot as plt
+import sys
+from scipy import stats
+from sklearn import svm, datasets
+from sklearn.svm import SVC
+from sklearn.utils import shuffle
+from sklearn.model_selection import train_test_split, GridSearchCV, learning_curve, ShuffleSplit
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix, recall_score, precision_score, f1_score
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+from sklearn import preprocessing
 
 # ======================================================================================================================
 # Data preprocessing
