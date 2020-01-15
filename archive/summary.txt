@@ -1,1 +1,1 @@
-Compilation of previous works:
+Compilation of previous and dummy ipynb files to test the functionality of the code by parts.
